@@ -12,41 +12,41 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.gvc.lavison.agent.Agent;
-import com.gvc.lavison.agent.AgentRepository;
-import com.gvc.lavison.agent.CreateAgentData;
-import com.gvc.lavison.agent.ListAgentData;
-import com.gvc.lavison.agent.UpdateAgentData;
+import com.gvc.lavison.product.CreateProductData;
+import com.gvc.lavison.product.ListProductData;
+import com.gvc.lavison.product.Product;
+import com.gvc.lavison.product.ProductRepository;
+import com.gvc.lavison.product.UpdateProductData;
 
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/agent")
-public class AgentController {
-
+@RequestMapping("/product")
+public class ProductController {
+	
 	@Autowired
-	private AgentRepository repository;
-
+	private ProductRepository repository;
+	
 	@PostMapping
 	@Transactional
-	public void registerAgent(@RequestBody @Valid CreateAgentData data) {
-
-		repository.save(new Agent(data));
+	public void registerProduct(@RequestBody @Valid CreateProductData data) {
+		
+		repository.save(new Product(data));
 	}
 	
 	@GetMapping
-	public Page<ListAgentData> listAgent(@PageableDefault(size = 10, sort = {"name"}) Pageable page){
+	public Page<ListProductData> listProduct(@PageableDefault(size = 10, sort = {"name"}) Pageable page){
 		
-		return repository.findAll(page).map(ListAgentData::new);
+		return repository.findAll(page).map(ListProductData::new);
 	}
-
+	
 	@PutMapping
 	@Transactional
-	public void updateAgent(@RequestBody @Valid UpdateAgentData data) {
-		Agent agent = repository.getReferenceById(data.id());
+	public void updateProduct(@RequestBody @Valid UpdateProductData data) {
+		Product product = repository.getReferenceById(data.id());
 		
-		agent.update(data);
-		
+		product.update(data);
 		
 	}
+
 }

@@ -12,41 +12,40 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.gvc.lavison.agent.Agent;
-import com.gvc.lavison.agent.AgentRepository;
-import com.gvc.lavison.agent.CreateAgentData;
-import com.gvc.lavison.agent.ListAgentData;
-import com.gvc.lavison.agent.UpdateAgentData;
+import com.gvc.lavison.product.CreateSectionData;
+import com.gvc.lavison.product.ListSectionData;
+import com.gvc.lavison.product.Section;
+import com.gvc.lavison.product.SectionRepository;
+import com.gvc.lavison.product.UpdateSectionData;
 
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/agent")
-public class AgentController {
-
+@RequestMapping("/section")
+public class SectionController {
+	
 	@Autowired
-	private AgentRepository repository;
-
+	private SectionRepository repository;
+	
 	@PostMapping
 	@Transactional
-	public void registerAgent(@RequestBody @Valid CreateAgentData data) {
+	public void registerSection(@RequestBody @Valid CreateSectionData data) {
+		
+		repository.save(new Section(data));
+	}
 
-		repository.save(new Agent(data));
+	@GetMapping
+	public Page<ListSectionData> listSection(@PageableDefault(size = 10, sort = {"name"}) Pageable page){
+		
+		return repository.findAll(page).map(ListSectionData::new);
 	}
 	
-	@GetMapping
-	public Page<ListAgentData> listAgent(@PageableDefault(size = 10, sort = {"name"}) Pageable page){
-		
-		return repository.findAll(page).map(ListAgentData::new);
-	}
-
 	@PutMapping
 	@Transactional
-	public void updateAgent(@RequestBody @Valid UpdateAgentData data) {
-		Agent agent = repository.getReferenceById(data.id());
+	public void updateSection(@RequestBody @Valid UpdateSectionData data){
+		Section section = repository.getReferenceById(data.id());
 		
-		agent.update(data);
-		
+		section.update(data);
 		
 	}
 }
