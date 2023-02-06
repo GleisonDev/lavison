@@ -28,6 +28,7 @@ public class Agent {
 		this.phone = data.phone();
 		this.email = data.email();
 		this.acess = data.acess();
+		this.active = true;
 	}
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,6 +41,7 @@ public class Agent {
 	
 	@Enumerated(EnumType.STRING)
 	private Acess acess;
+	private Boolean active;
 
 	public void update(@Valid UpdateAgentData data) {
 		if (data.password() != null) {
@@ -51,6 +53,11 @@ public class Agent {
 		if (data.acess() != null) {
 			this.acess = data.acess();
 		}
+		
+	}
+
+	public void delete() {
+		this.active = false;
 		
 	}
 }

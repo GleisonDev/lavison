@@ -5,6 +5,7 @@ CREATE TABLE products (
 	"section" text NOT NULL,
 	price decimal(8,2),
 	"cost" decimal(8,2) NOT NULL,
-	"amount" integer
+	"amount" integer,
+	active boolean NOT NULL
 
 );

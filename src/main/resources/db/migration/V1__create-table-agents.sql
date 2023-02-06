@@ -5,7 +5,9 @@ CREATE TABLE agents (
 	"password" text NOT NULL,
 	phone text NOT NULL,
 	email text NOT NULL,
-	acess text NOT NULL
+	acess text NOT NULL,
+	active boolean NOT NULL
+	
 );
 
 

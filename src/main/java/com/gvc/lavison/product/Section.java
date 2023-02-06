@@ -24,6 +24,7 @@ public class Section {
 	public Section(CreateSectionData data) {
 		this.name = data.name();
 		this.margin = data.margin();
+		this.active = true;
 	}
 
 	@Id
@@ -31,11 +32,17 @@ public class Section {
 	private Long id;
 	private String name;
 	private BigDecimal margin;
+	private boolean active;
 	
 	public void update(@Valid UpdateSectionData data) {
 		if (data.margin() != null) {
 			this.margin = data.margin();
 		}
+		
+	}
+
+	public void delete() {
+		this.active = false;
 		
 	}
 

@@ -28,6 +28,7 @@ public class Product {
 		this.price = data.price();
 		this.cost = data.cost();
 		this.amount = data.amount();
+		this.active = true;
 	}
 	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,6 +39,7 @@ public class Product {
 	private BigDecimal price;
 	private BigDecimal cost;
 	private Integer amount;
+	private boolean active;
 	
 	public void update(@Valid UpdateProductData data) {
 		if (data.name() != null) {
@@ -55,6 +57,11 @@ public class Product {
 		if (data.amount() != null) {
 			this.amount = data.amount();
 		}
+		
+	}
+
+	public void delete() {
+		this.active = false;
 		
 	}
 
