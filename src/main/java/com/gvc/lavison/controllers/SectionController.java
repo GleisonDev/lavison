@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.gvc.lavison.agent.Agent;
 import com.gvc.lavison.product.CreateSectionData;
 import com.gvc.lavison.product.ListSectionData;
 import com.gvc.lavison.product.Section;
@@ -26,38 +24,38 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/section")
 public class SectionController {
-	
+
 	@Autowired
 	private SectionRepository repository;
-	
+
 	@PostMapping
 	@Transactional
 	public void registerSection(@RequestBody @Valid CreateSectionData data) {
-		
+
 		repository.save(new Section(data));
 	}
 
 	@GetMapping
-	public Page<ListSectionData> listSection(@PageableDefault(size = 10, sort = {"name"}) Pageable page){
-		
+	public Page<ListSectionData> listSection(@PageableDefault(size = 10, sort = { "name" }) Pageable page) {
+
 		return repository.findAllByActiveTrue(page).map(ListSectionData::new);
 	}
-	
+
 	@PutMapping
 	@Transactional
-	public void updateSection(@RequestBody @Valid UpdateSectionData data){
+	public void updateSection(@RequestBody @Valid UpdateSectionData data) {
 		Section section = repository.getReferenceById(data.id());
-		
+
 		section.update(data);
-		
+
 	}
-	
+
 	@DeleteMapping("/{id}")
 	@Transactional
 	public void deleteSection(@PathVariable Long id) {
 		Section section = repository.getReferenceById(id);
 		section.delete();
-		
+
 	}
-	
+
 }
